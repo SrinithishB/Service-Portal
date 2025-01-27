@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 app_name='Service Portal'
 urlpatterns = [
-    path("",views.index,name="index"),
+    # path("",views.index,name="index"),
     path("customer/",views.cust_dash,name="customer"),
     path("provider/",views.serv_dash,name="provider"),
     path("request_detail/<int:pk>",views.request_details,name="request_details"),
