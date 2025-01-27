@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main_box2">
+    <div class="full_width_box">
+        <h1>MY BIDS</h1>
+        <table class="table">
+            <tr>
+                <th>Request Description</th>
+                <th>Bid Price</th>
+                <th>Status</th>
+                <th>Date Submitted</th>
+            </tr>
+            {% for bid in bids %}
+            <tr>
+                <td><a href="{% url 'Service Portal:request_details' bid.service_request.request_id %}">
+                    {{ bid.service_request.description }}
+                </a></td>
+                <td>{{ bid.price }}</td>
+                <td>
+                    {% if bid.service_request.accepted_quote and bid.service_request.accepted_quote.quote_id == bid.quote_id %}
+                        <span style="color: green;"><strong>Accepted</strong></span>
+                    {% else %}
+                        <span style="color: red;">Not Accepted</span>
+                    {% endif %}
+                </td>
+                <td>{{ bid.created_at|date:"d-m-Y" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">You have not submitted any bids yet.</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock content %}

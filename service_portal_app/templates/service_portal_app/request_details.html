@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main_box2">
+    <div class="full_width_box">
+        <h1>REQUEST DETAIL</h1>
+        <table border="0" style="width: 100%; border-collapse: collapse; text-align: start">
+            <tbody>
+                <tr>
+                    <td style="padding: 8px;"><h3>Customer Name:</h3></td>
+                    <td style="padding: 8px;">{{ service_request.customer.name }}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px;"><h3>Customer Phone no:</h3></td>
+                    <td style="padding: 8px;">{{service_request.customer.phone_no}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px;"><h3>Customer Email:</h3></td>
+                    <td style="padding: 8px;">{{service_request.customer.user.email}}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px;"><h3>Problem:</h3></td>
+                    <td style="padding: 8px;">{{ service_request.description }}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px;"><h3>Location:</h3></td>
+                    <td style="padding: 8px;">{{ service_request.location.city }}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px;"><h3>Posted Date:</h3></td>
+                    <td style="padding: 8px;">{{ service_request.created_at|date:"d-m-Y" }}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px;"><h3>Status:</h3></td>
+                    <td style="padding: 8px;">{{ service_request.get_status_display }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        {% if service_request.status != "Canceled" and service_request.status != "Completed" %}
+        <form action="{% url 'Service Portal:cancel_request' service_request.request_id %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Cancel Request</button>
+        </form>
+        {% elif service_request.status == "Completed" %}
+        <p style="color: blue;"><strong>This request has been completed.</strong></p>
+        {% else %}
+        <p style="color: red;"><strong>This request has been canceled.</strong></p>
+        {% endif %}
+    </div>
+
+    <div class="full_width_box">
+        <h1>Quotes</h1>
+        <table class="table">
+            <tr>
+                <th>Service Provider</th>
+                {% comment %} <th>Ratings</th> {% endcomment %}
+                <th>Phone no</th>
+                <th>Email</th>
+                <th>Comments</th>
+                <th>Price</th>
+                <th>Availability Date</th>
+                <th>Status</th>
+            </tr>
+            {% for quote in quotes %}
+            <tr>
+                <td>{{ quote.provider.profile.name }}</td>
+                {% comment %} <td>
+                    {% if quote.provider.profile.ratings %}
+                        {{ quote.provider.profile.ratings }}/5
+                    {% else %}
+                        No ratings
+                    {% endif %}
+                </td> {% endcomment %}
+                <td>{{ quote.provider.profile.phone_no }}</td>
+                <td>{{ quote.provider.profile.user.email }}</td>
+                <td>{{ quote.comment }}</td>
+                <td>{{ quote.price }}</td>
+                <td>{{ quote.availability_date|date:"d-m-Y" }}</td>
+                <td>
+                    {% if service_request.accepted_quote and service_request.accepted_quote.quote_id == quote.quote_id %}
+                        <span style="color: green;"><strong>Accepted</strong></span>
+                    {% else %}
+                        {% if service_request.status == "Pending" %}
+                        <a href="{% url 'Service Portal:accept_quote' quote.quote_id %}" class="btn btn-success">Accept Quote</a>
+                        {% else %}
+                        <span style="color: red;">Not Accepted</span>
+                        {% endif %}
+                    {% endif %}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">No quotes submitted yet.</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock content %}

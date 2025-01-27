@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="banner">
+        <h1>WELCOME TO SERVICE PORTAL</h1>
+        <h2>REGISTER</h2>
+    </div>
+    <form action="" method="POST" class="form">
+        {% csrf_token %}
+        <div class="">
+            {{form.as_p}}
+        </div>
+        <button class="" type="submit">Register</button>
+    </form>
+</div>
+{% endblock content %}

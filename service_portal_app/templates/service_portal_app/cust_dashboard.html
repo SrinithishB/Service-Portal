@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="main_box">
+    <div class="half_box">
+        <h1>ADD NEW REQUEST</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <textarea style="height: 100px;" 
+            class="input"
+            id="id_description" 
+            name="description" 
+            rows="4" 
+            placeholder="Write about your problem and about your device."></textarea>
+            <span class="input">
+                <input 
+                type="file" 
+                id="id_images" 
+                name="images" 
+                multiple 
+                class="input">
+            {% if form.images.errors %}
+                <div style="color:red;">{{ form.images.errors }}</div>
+            {% endif %}
+            </span>
+            <select id="id_location" name="location" class="input">
+                <option value="">Select a location</option>
+                {% for location in locations %}
+                    <option 
+                        value="{{ location.location_id }}" 
+                        {% if location.id == form.location.value %}selected{% endif %}>
+                        {{ location.city }}
+                    </option>
+                {% endfor %}
+            </select>
+            {% if form.location.errors %}
+                <div style="color:red;">{{ form.location.errors }}</div>
+            {% endif %}
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+    <div class="half_box">
+        <h1>ACTIVE REQUESTS</h1>
+        <table class="table">
+                <tr>
+                    <th>Problem</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+                {% for request in service_requests %}
+                <tr>
+                    <td><a href="{% url "Service Portal:request_details" request.request_id %}">{{ request.description }}</a></td>
+                    <td>{{ request.created_at|date:"d-m-Y" }}</td>
+                    <td>{{request.status}}</td>
+                    {% comment %} <td>
+                        <select>
+                            <option value="open" {% if request.status == 'open' %}selected{% endif %}>
+                                Open and Accept
+                            </option>
+                            <option value="closed" {% if request.status == 'closed' %}selected{% endif %}>
+                                Closed
+                            </option>
+                        </select>
+                    </td> {% endcomment %}
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3">No active requests found.</td>
+                </tr>
+                {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock content %}

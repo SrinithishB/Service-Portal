@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main_box2">
+    <div class="full_width_box">
+        <h1>AVAILABLE REQUESTS</h1>
+        <table class="table">
+            <tr>
+                <th>Problem</th>
+                <th>Date</th>
+                <th>Location</th>
+                <th>Action</th>
+            </tr>
+            {% for request in service_requests %}
+            <tr>
+                <td>{{request.description }}</td>
+                <td>{{ request.created_at|date:"d-m-Y" }}</td>
+                <td>{{ request.location.city }}</td>
+                <td><a href="{% url 'Service Portal:quote_submission' request.request_id %}">View and Quote</a></td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">No active requests found for your location.</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="full_width_box">
+        <h1>MY BIDS</h1>
+        <table class="table">
+            <tr>
+                <th>Request Description</th>
+                <th>Bid Price</th>
+                <th>Status</th>
+                <th>Date Submitted</th>
+            </tr>
+            {% for bid in bids %}
+            <tr>
+                <td>
+                    <a href="{% url 'Service Portal:quote_submission' bid.service_request.request_id %}">
+                        {{ bid.service_request.description }}
+                    </a>
+                </td>
+                <td>{{ bid.price }}</td>
+                <td>
+                    {% if bid.service_request.status == 'Completed' %}
+                        <span style="color: blue;"><strong>Completed</strong></span>
+                    {% elif bid.service_request.accepted_quote and bid.service_request.accepted_quote.quote_id == bid.quote_id %}
+                        <span style="color: green;"><strong>Accepted</strong></span>
+                    {% else %}
+                        <span style="color: red;">Not Accepted</span>
+                    {% endif %}
+                </td>
+                <td>{{ bid.created_at|date:"d-m-Y" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="4">You have not submitted any bids yet.</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    
+{% endblock content %}

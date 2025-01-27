@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main_box2">
+    <div class="full_width_box">
+        <h1>REQUEST DETAIL</h1>
+        <table border="0" style="width: 100%; border-collapse: collapse; text-align: start">
+            <tbody>
+                <tr>
+                    <td style="padding: 8px;"><h3>Customer Name:</h3></td>
+                    <td style="padding: 8px;">{{ service_request.customer.name }}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px;"><h3>Customer Phone no:</h3></td>
+                    <td style="padding: 8px;">{{ service_request.customer.phone_no }}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px;"><h3>Customer Email:</h3></td>
+                    <td style="padding: 8px;">{{ service_request.customer.user.email }}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px;"><h3>Problem:</h3></td>
+                    <td style="padding: 8px;">{{ service_request.description }}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px;"><h3>Location:</h3></td>
+                    <td style="padding: 8px;">{{ service_request.location.city }}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px;"><h3>Posted Date:</h3></td>
+                    <td style="padding: 8px;">{{ service_request.created_at|date:"d-m-Y" }}</td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px;"><h3>Status:</h3></td>
+                    <td style="padding: 8px;">{{ service_request.get_status_display }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="full_width_box">
+        <h1>Quotes Submission</h1>
+        
+        {% if has_submitted_quote %}
+            <p style="color: green;"><strong>You have already submitted a quote for this request.</strong></p>
+        {% else %}
+            <form method="POST" action="" enctype="multipart/form-data" style="display:flex;flex-direction:column;">
+                {% csrf_token %}
+                
+                <!-- Price Estimation -->
+                <label>Price</label>
+                <input 
+                    class="input" 
+                    type="number" 
+                    id="price" 
+                    name="price" 
+                    step="0.01" 
+                    placeholder="Enter price estimation" 
+                    required>
+                
+                <!-- Comments -->
+                <label>Comment</label>
+                <textarea
+                    class="input" 
+                    id="comments" 
+                    name="comments" 
+                    placeholder="Add any comments (optional)"></textarea>
+                
+                <!-- Availability Date -->
+                <label>Availability Date</label>
+                <input 
+                    class="input" 
+                    type="date" 
+                    id="availability_date" 
+                    name="availability_date" 
+                    placeholder="Availability Date"
+                    required>
+                
+                <!-- Submit and Cancel Buttons -->
+                <div>
+                    <button style="width:10%;" type="submit">
+                        Submit
+                    </button>
+                    <a href="{% url 'user:index' %}" style="background-color: #7A2DDF; color: white; padding: 7.1px 20px; border: none; border-radius: 5px; text-decoration: none; text-align: center;">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        {% endif %}
+    </div>
+    
+    <!-- Completed Button (Only visible if bid is accepted) -->
+    {% if service_request.status == 'Completed' %}
+    <p style="color: green; font-weight: bold;">Task Completed</p>
+{% elif service_request.status == 'Accepted' %}
+<div class="full_width_box">
+    <h1>Mark Service as Completed</h1>
+    <form method="POST" action="{% url 'Service Portal:mark_completed' service_request.request_id %}">
+        {% csrf_token %}
+        <button 
+            type="submit" 
+            style="background-color: #28A745; color: white; padding: 10px 20px; border: none; border-radius: 5px; text-align: center;">
+            Mark as Completed
+        </button>
+    </form>
+</div>
+{% else %}
+    <p>Status: {{ service_request.get_status_display }}</p>
+{% endif %}
+
+    {% comment %} {% if service_request.status == 'Accepted' %}
+    <form method="post" action="{% url 'service_portal_app:mark_completed' service_request.request_id %}">
+        {% csrf_token %}
+        <button type="submit">Mark as Completed</button>
+    </form>
+{% endif %} {% endcomment %}
+</div>
+{% endblock content %}

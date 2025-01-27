@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Paytone+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static "style.css" %}">
+</head>
+<body>
+    {% block nav %}
+    <nav class="nav">
+        <h1>SERVICE PORTAL</h1>
+        <div>
+            {% if user.is_authenticated %}
+                {% if user.profile.user_type == 'Customer' %}
+                    <!-- Navigation for customers -->
+                    <a href="{% url 'Service Portal:customer' %}">DASHBOARD</a>
+                    <a href="{%url 'Service Portal:my_requests'%}">MY REQUESTS</a>
+                    <a href="{% url 'user:profile' %}">PROFILE</a>
+                    <form action="{% url 'user:logout' %}" method="POST" style="display:inline;">
+                        {% csrf_token %}
+                        <input class="logoutbtn" type="submit" value="LOGOUT"/>
+                    </form>
+                {% elif user.profile.user_type == 'Service Provider' %}
+                    <!-- Navigation for service providers -->
+                    <a href="{% url 'Service Portal:provider' %}">DASHBOARD</a>
+                    {% comment %} <a href="{%url 'Service Portal:my_bids'%}">MY BIDS</a> {% endcomment %}
+                    <a href="{% url 'user:profile' %}">PROFILE</a>
+                    <form action="{% url 'user:logout' %}" method="POST" style="display:inline;">
+                        {% csrf_token %}
+                        <button class="logoutbtn" type="submit">LOGOUT</button>
+                    </form>
+                {% endif %}
+            {% else %}
+                <!-- Navigation for guests -->
+                <a href="{% url 'user:register' %}">HOME</a>
+                <a href="{% url 'user:login' %}">LOGIN</a>
+            {% endif %}
+        </div>
+    </nav>
+    {% endblock nav %}
+    {% block content %}{% endblock content %}
+    {% block footer %}{% endblock footer %}
+</body>
+</html>

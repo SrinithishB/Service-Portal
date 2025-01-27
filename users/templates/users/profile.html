@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="banner">
+    <h1>PROFILE</h1>
+</div>
+<div class="profile_content">
+    <div id="profile" class="box">
+        
+        {% if user.profile %}
+            <div class="">
+                <img class="" style="background:url('/static/media/resources/avatar.jpeg'); width:100px; height:100px; border-radius:100%; background-position: center; background-size: cover;" src="{{user.profile.profile_image.url}}" alt="profile image">
+                <table border="0" style="width: 100%; border-collapse: collapse; text-align:start">
+                    <tbody>
+                        <tr>
+                            <td style="padding: 8px;"><h3>Username :</h3></td>
+                            <td style="padding: 8px;">{{ user.username }}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px;"><h3>Name :</h3></td>
+                            <td style="padding: 8px;">{{ user.profile.name }}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px;"><h3>Phone No :</h3></td>
+                            <td style="padding: 8px;">{{ user.profile.phone_no }}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px;"><h3>Email :</h3></td>
+                            <td style="padding: 8px;">{{ user.email }}</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px;"><h3>User Type :</h3></td>
+                            <td style="padding: 8px;">{{ user.profile.user_type }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <a class="" href="{% url "user:edit_profile" %}">Edit</a>
+            </div> 
+        {% else %} 
+            <h2 class="">Username - {{user.username}}</h2>
+            <a class="" href="{% url "edit_profile" %}">Create</a> 
+        {% endif %} 
+        
+    </div> 
+</div> 
+
+{% endblock content %}  
