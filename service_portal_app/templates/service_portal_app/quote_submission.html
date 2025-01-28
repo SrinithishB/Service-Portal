@@ -31,6 +31,18 @@
                     <td style="padding: 8px;">{{ service_request.created_at|date:"d-m-Y" }}</td>
                 </tr>
                 <tr>
+                    <td style="padding: 8px;"><h3>Request Images:</h3></td>
+                    <td style="padding: 8px;">
+                        {% if service_request.images.exists %}
+                            {% for image in service_request.images.all %}
+                                <img src="{{ image.image.url }}" alt="Request Image" style="max-width: 100px; height: auto; border: 1px solid #ddd; border-radius: 4px; padding: 5px; margin-bottom: 10px;">
+                            {% endfor %}
+                        {% else %}
+                            <p>No images uploaded for this request.</p>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
                     <td style="padding: 8px;"><h3>Status:</h3></td>
                     <td style="padding: 8px;">{{ service_request.get_status_display }}</td>
                 </tr>
