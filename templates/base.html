@@ -14,21 +14,19 @@
     {% block nav %}
     <nav class="nav">
         <h1>SERVICE PORTAL</h1>
-        <div>
+        <div class="menu-icon" id="menu-toggle">☰</div>
+        <div class="nav-links" id="nav-links">
             {% if user.is_authenticated %}
                 {% if user.profile.user_type == 'Customer' %}
-                    <!-- Navigation for customers -->
                     <a href="{% url 'Service Portal:customer' %}">DASHBOARD</a>
-                    <a href="{%url 'Service Portal:my_requests'%}">MY REQUESTS</a>
+                    <a href="{% url 'Service Portal:my_requests' %}">MY REQUESTS</a>
                     <a href="{% url 'user:profile' %}">PROFILE</a>
                     <form action="{% url 'user:logout' %}" method="POST" style="display:inline;">
                         {% csrf_token %}
                         <input class="logoutbtn" type="submit" value="LOGOUT"/>
                     </form>
                 {% elif user.profile.user_type == 'Service Provider' %}
-                    <!-- Navigation for service providers -->
                     <a href="{% url 'Service Portal:provider' %}">DASHBOARD</a>
-                    {% comment %} <a href="{%url 'Service Portal:my_bids'%}">MY BIDS</a> {% endcomment %}
                     <a href="{% url 'user:profile' %}">PROFILE</a>
                     <form action="{% url 'user:logout' %}" method="POST" style="display:inline;">
                         {% csrf_token %}
@@ -36,14 +34,26 @@
                     </form>
                 {% endif %}
             {% else %}
-                <!-- Navigation for guests -->
                 <a href="{% url 'user:register' %}">HOME</a>
                 <a href="{% url 'user:login' %}">LOGIN</a>
             {% endif %}
         </div>
     </nav>
+    
+    <!-- JavaScript for Toggle Menu -->
+    
     {% endblock nav %}
     {% block content %}{% endblock content %}
     {% block footer %}{% endblock footer %}
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const menuToggle = document.getElementById("menu-toggle");
+            const navLinks = document.getElementById("nav-links");
+    
+            menuToggle.addEventListener("click", function () {
+                navLinks.classList.toggle("active");
+            });
+        });
+    </script>
 </body>
 </html>

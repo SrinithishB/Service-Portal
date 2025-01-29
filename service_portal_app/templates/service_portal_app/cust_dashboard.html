@@ -11,7 +11,7 @@
             name="description" 
             rows="4" 
             placeholder="Write about your problem and about your device."></textarea>
-            <span class="input">
+            {% comment %} <span class="input"> {% endcomment %}
                 <input 
                 type="file" 
                 id="id_images" 
@@ -21,7 +21,7 @@
             {% if form.images.errors %}
                 <div style="color:red;">{{ form.images.errors }}</div>
             {% endif %}
-            </span>
+            {% comment %} </span> {% endcomment %}
             <select id="id_location" name="location" class="input">
                 <option value="">Select a location</option>
                 {% for location in locations %}

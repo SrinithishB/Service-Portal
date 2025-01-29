@@ -15,9 +15,9 @@
         <span>
             <img style="background:url('/static/media/resources/avatar.jpeg'); width:100px; height:100px; border-radius:100%; background-position: center; background-size: cover;" src="{{ profile.profile_image.url }}" alt="">
         </span>
-        <div class="input">
+        {% comment %} <div class="input"> {% endcomment %}
             <input type="file" id="image" name="image" placeholder="Image" default:"/static/media/resources/avatar.jpeg" accept="image/*"  required>
-        </div>
+        {% comment %} </div> {% endcomment %}
         <div>
             <select id="user_type" name="user_type" placeholder="User Type" class="input">
                 <option>Select Your User Type</option>

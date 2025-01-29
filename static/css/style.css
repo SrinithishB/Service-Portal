@@ -9,24 +9,7 @@ body{
     letter-spacing: 1px;
     /* word-spacing: 5px; */
 }
-.nav{
-    width: auto;
-    height: 5vh;
-    background-color: #7A2DDF;
-    color: white;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px;
-    >div>a{
-        color: white;
-        padding: 0px 5px 0px 5px;
-        text-decoration: none;
-    }
-    >div>a:hover{
-        color: purple;
-    }
-}
+
 
 .banner{
     background-image: linear-gradient(170deg,rgb(122, 45, 223),rgba(123, 46, 224, 0)),url('/static/media/resources/banner.jpg');
@@ -40,22 +23,36 @@ body{
     align-items: center;
     flex-direction: column;
 }
-input,.input{
+input,.input,textarea{
     width: 300px;
-    height: 30px;
+    /* height: 30px; */
     border-radius: 5px;
-    outline-color: rgba(111, 0, 255, 0.66);
+    /* outline-color: rgba(111, 0, 255, 0.66); */
     border-color: rgba(111, 0, 255, 0.66);
     margin: 5px;
+    
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid rgba(111, 0, 255, 0.66);
+    outline: none;
+    font-size: 16px;
 }
 button{
-    width: 300px;
-    height: 30px;
+    width: 329px;
+    /* height: 30px; */
+    height: 40px;
+    margin: 5px;
+
     background-color: #7A2DDF;
-    border-radius: 5px;
     color: white;
     border: none;
-    margin: 5px;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background 0.3s;
+    cursor: pointer;
+}
+button:hover {
+    background-color: #6319c6;
 }
 .form{
     min-height: 45vh;
@@ -168,5 +165,103 @@ button{
     color: #7A2DDF;
     box-sizing: border-box; /* Include padding and border in width/height calculations */
     overflow: auto; /* Add scrollbars if content exceeds height */
+}
+
+.nav {
+    width: auto;
+    height: 60px;
+    background-color: #7A2DDF;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    position: relative;
+}
+
+/* Navigation Links */
+.nav-links {
+    display: flex;
+    align-items: center;
+}
+
+.nav-links a {
+    color: white;
+    padding: 8px 12px;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.nav-links a:hover {
+    color: lightgray;
+}
+
+/* Logout Button */
+.logoutbtn {
+    background-color: transparent;
+    color: white;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 8px 12px;
+}
+
+/* Hamburger Menu */
+.menu-icon {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+
+@media (max-width: 768px) {
+    .half_box {
+        border: 1px solid rgba(110, 0, 255, 0.66);
+    background-color: #7a2ddf21;
+    width: calc(100% - 30px); /* Adjust width to prevent horizontal overflow */
+    max-width: 100%; /* Ensure it does not exceed the viewport width */
+    height: auto; /* Allow height to adjust based on content */
+    padding: 15px;
+    margin: 15px auto; /* Center the box and prevent side overflow */
+    border-radius: 14px;
+    color: #7A2DDF;
+    box-sizing: border-box; /* Include padding and border in width/height calculations */
+    overflow: auto; /* Add scrollbars if content exceeds height */
+
+    }
+    .main_box{
+        flex-direction: column;
+    }
+    .nav {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        background-color: #7A2DDF;
+        text-align: center;
+        padding: 10px 0;
+    }
+
+    .nav-links a {
+        padding: 10px;
+        display: block;
+        font-size: 18px;
+    }
+
+    .menu-icon {
+        display: block;
+    }
+
+    .nav-links.active {
+        display: flex;
+    }    
 }
 
