@@ -25,6 +25,7 @@ Follow the steps below to set up the project locally:
 4. **Install the required dependencies**  
    With the virtual environment activated, install the necessary Python dependencies using the command:
    ```bash
+   cd Service-Portal
    pip install -r requirements.txt
    ```
 
