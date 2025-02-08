@@ -34,7 +34,7 @@
             <a href="{% url 'user:register' %}">Register</a>
         </div>    
     </form>
-    <h4>Service Provider:</h4>
+    {% comment %} <h4>Service Provider:</h4>
         <h5>User 1</h5>
         <h6>Username:Rishi</h6>
         <h6>Password:Rishi@1234</h6>
@@ -47,6 +47,6 @@
         <h5>User 1</h5>
         <h6>Username:Karan</h6>
         <h6>Password:Karan@1234</h6>
-        <br/>
+        <br/> {% endcomment %}
 </div>
 {% endblock content %}
